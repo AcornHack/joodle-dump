@@ -1,19 +1,36 @@
 import pygame
 import time
 
+# todo
+# wrap round off edge of screen
+# make screen scrolling smoother?
+# add audio?
+# new character
+# simple character animation?
+# tune movement to make it feel good
+# add more platforms
+# add more items and different types
+# fall down to a crisis
+# remove platforms that scroll off the bottom of the screen, so player freefalls after fall
+
 pygame.init()
 WIDTH = 800
-HEIGHT = 600
+HEIGHT = 1800
+SCREEN_HEIGHT = 600
 WHITE = (255, 255, 255)
 
 pygame.key.set_repeat(50,50)
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDTH, SCREEN_HEIGHT))
 jumper = pygame.sprite.Sprite()
 jumper.image = pygame.image.load("elephant.bmp")
 jumper.rect = jumper.image.get_rect()
+jumper.rect.y = 1500
 screen.fill(WHITE)
 
 clock = pygame.time.Clock()
+
+# as the player moves up this decreases and the screen scrolls upwards
+camera_offset = 1200
 
 #bottom of the screen
 bottom = pygame.sprite.Sprite()
@@ -34,14 +51,18 @@ def create_item(type, x, y):
   item.rect.y = y
   return item
 
+def to_camera_space(rect):
+  return pygame.Rect(rect.x, rect.y-camera_offset, rect.width, rect.height)
+
 ## items!!!
 items = pygame.sprite.OrderedUpdates()
-items.add(create_item("first_aid", 400,300)) 
+items.add(create_item("first_aid", 400,1200+300)) 
 
 platforms = []
 platform_colour = (200, 140, 80)
-platforms.append(create_platform(200, 500))
-platforms.append(create_platform(400, 300))
+platforms.append(create_platform(200, 1200+500))
+platforms.append(create_platform(400, 1200+300))
+platforms.append(create_platform(500, 1200+100))
 
 platforms.append(bottom)
 
@@ -53,8 +74,10 @@ jump_frame = -1 # not jumping
 jump_deltas = [ x**2 / 1.5 for x in range(10,0,-1)] 
 
 ## this tries to move the player, if we collide with a platform
-## we don't allow the movement
+## we don't allow the movement, if we collide with an item we
+## collect it
 def apply_move(move_x,move_y):
+  global camera_offset 
   jumper.rect.x += move_x
   jumper.rect.y += move_y
   jumper_group = pygame.sprite.GroupSingle(jumper)
@@ -65,12 +88,18 @@ def apply_move(move_x,move_y):
   if pygame.sprite.groupcollide(jumper_group, items, False, True):
     print("Item collected!!")
   
+  #print("y={:d} camera_offset={:f}" .format(jumper.rect.y, camera_offset) )
+  # if player is more than halfway up the screen, scroll the screen upwards
+  if jumper.rect.y < camera_offset + SCREEN_HEIGHT / 2 :
+    camera_offset = jumper.rect.y - SCREEN_HEIGHT / 2
+  # if player is falling off bottom of screen scroll screen downwards
+  if jumper.rect.y + jumper.rect.height > camera_offset + SCREEN_HEIGHT:
+    camera_offset = jumper.rect.y + jumper.rect.height - SCREEN_HEIGHT + 20
   
 
 pygame.display.update()
 gravity = 5
-move = 5 # speed
-jump = 50
+move = 15 # speed
 game_running = True
 while game_running:
   clock.tick(30) # limit framerate to 30fps
@@ -103,15 +132,14 @@ while game_running:
       jump_frame = -1
  
   screen.fill(WHITE)
-  screen.blit(jumper.image, jumper.rect)
-  screen.fill((50,50,50), bottom)
+  screen.blit(jumper.image, to_camera_space(jumper.rect))
 
   for platform in platforms:
-    screen.fill(platform_colour, platform.rect)
+    screen.fill(platform_colour, to_camera_space(platform.rect))
 
 
   for item in items:
-    screen.blit(item.image, item.rect)
+    screen.blit(item.image, to_camera_space(item.rect))
 
   pygame.display.update()
 
