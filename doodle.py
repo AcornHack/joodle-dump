@@ -151,7 +151,6 @@ while game_running:
     
   for platform in platforms:
     if platform.rect.y > camera_offset+SCREEN_HEIGHT:
-
       print("kill platform")
 
   screen.fill(WHITE)
