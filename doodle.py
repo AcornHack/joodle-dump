@@ -7,7 +7,7 @@ import time
 # add audio?
 # new character
 # simple character animation?
-# tune movement to make it feel 
+# tune movement to make it feel good
 # add more platforms
 # add more items and different types
 # fall down to a crisis
@@ -60,14 +60,17 @@ def to_camera_space(rect):
 items = pygame.sprite.OrderedUpdates()
 items.add(create_item("coin", 400,1450)) 
 items.add(create_item("coin", 600,1050)) 
+
 platforms = []
 platform_colour = (200, 140, 80)
 platforms.append(create_platform(200, 1200+500))
 platforms.append(create_platform(400, 1200+300))
 platforms.append(create_platform(500, 1000+100))
 platforms.append(create_platform(200, 1200+100))
+
 platforms.append(create_platform(600, 1000+100))
 platforms.append(create_platform(200, 900))
+
 platforms.append(bottom)
 
 ## when player presses jump button we set jump_frame to 0
@@ -80,7 +83,9 @@ jump_deltas = [ x**2 / 1.5 for x in range(10,0,-1)]
 ## this tries to move the player, if we collide with a platform
 ## we don't allow the movement, if we collide with an item we
 ## collect it
+score = 0
 def apply_move(move_x,move_y):
+  global score
   global camera_offset 
   jumper.rect.x += move_x
   jumper.rect.y += move_y
@@ -90,7 +95,8 @@ def apply_move(move_x,move_y):
     jumper.rect.y -= move_y
 
   if pygame.sprite.groupcollide(jumper_group, items, False, True):
-    print("Item collected!!")
+    print("Item collected!!" + str(score))
+    score +=1
   
   #print("y={:d} camera_offset={:f}" .format(jumper.rect.y, camera_offset) )
   # if player is more than halfway up the screen, scroll the screen upwards
@@ -101,6 +107,7 @@ def apply_move(move_x,move_y):
     camera_offset = jumper.rect.y + jumper.rect.height - SCREEN_HEIGHT + 20
   
 
+
 pygame.display.update()
 gravity = 5
 move = 15 # speed
@@ -108,6 +115,12 @@ game_running = True
 while game_running:
   clock.tick(30) # limit framerate to 30fps
   apply_move(0, gravity) 
+
+  for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+      game_running = False
+    elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+      game_running = False
 
   keys = pygame.key.get_pressed();
   if keys[pygame.K_UP] or keys[pygame.K_SPACE] or keys[pygame.K_w]:
@@ -123,7 +136,7 @@ while game_running:
     apply_move(-move, 0)
   if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
     apply_move(move, 0)
-  
+
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       game_running = False
@@ -138,6 +151,7 @@ while game_running:
     
       for platform in platforms:
     if platform.rect.y > camera_offset+SCREEN_HEIGHT:
+      print("kill platform")
       
   screen.fill(WHITE)
 
@@ -149,6 +163,11 @@ while game_running:
  
   screen.blit(background_image,(0,0))
   screen.blit(jumper.image, to_camera_space(jumper.rect))
+  font = pygame.font.Font(None, 36)
+  text_image = font.render("score: "+str(score), True,(153, 45, 189))
+  text_rect = text_image.get_rect(centerx=100, centery=50)
+  screen.blit(text_image, text_rect)
+  
 
   for platform in platforms:
     screen.fill(platform_colour, to_camera_space(platform.rect))
