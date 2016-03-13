@@ -77,7 +77,7 @@ default_platforms.append(create_platform(200, 890))
 default_platforms.append(create_platform(100, 600))
 
 default_platforms.append(bottom)
-platforms = default_platforms
+platforms = default_platforms[::]
 
 ## when player presses jump button we set jump_frame to 0
 ## then each frame we apply the position diff stored in the 
@@ -145,7 +145,8 @@ while game_running:
     apply_move(move, 0)
   if keys[pygame.K_y] and crisis:
     crisis = False
-    
+    platforms = default_platforms[::]
+    jumper.rect.y = 1200
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       game_running = False
