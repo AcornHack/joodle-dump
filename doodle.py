@@ -108,27 +108,27 @@ while game_running:
   clock.tick(30) # limit framerate to 30fps
   apply_move(0, gravity) 
 
+  keys = pygame.key.get_pressed();
+  if keys[pygame.K_UP] or keys[pygame.K_SPACE] or keys[pygame.K_w]:
+    # if the player is just above or on a platform we allow a jump
+    # to test we form a rectangle just under the player and collide it against
+    # the platforms
+    feet = pygame.sprite.Sprite()
+    feet.rect = pygame.Rect(jumper.rect.x, jumper.rect.y+3+jumper.rect.height,
+    jumper.rect.width, 3)
+    if pygame.sprite.groupcollide([feet], platforms, False, False):
+        jump_frame = 0 # player is allowed to jump - start the jump sequence
+  if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+    apply_move(-move, 0)
+  if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+    apply_move(move, 0)
+  
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       game_running = False
     elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
       game_running = False
-    elif event.type == pygame.KEYDOWN:
-      if event.key == pygame.K_UP or event.key == pygame.K_SPACE or event.key == pygame.K_w:
-	    # if the player is just above or on a platform we allow a jump
-		# to test we form a rectangle just under the player and collide it against
-		# the platforms
-        feet = pygame.sprite.Sprite()
-        feet.rect = pygame.Rect(jumper.rect.x, jumper.rect.y+3+jumper.rect.height,
-        jumper.rect.width, 3)
-        if pygame.sprite.groupcollide([feet], platforms, False, False):
-         jump_frame = 0 # player is allowed to jump - start the jump sequence
-      elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
-        apply_move(-move, 0)
-      elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
-        apply_move(move, 0)
-
-
+      
   print("{:f}".format(jumper.rect.x))
   if jumper.rect.x < 0 :
     jumper.rect.x = 800
