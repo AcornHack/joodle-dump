@@ -170,6 +170,7 @@ while game_running:
   if crisis:
     font = pygame.font.Font(None, 36)
     text_image = font.render("Question: ", True,(153, 45, 189))
+    screen.blit(text_image,(200,400))
   else:
     screen.blit(background_image,(0,0))
     screen.blit(jumper.image, to_camera_space(jumper.rect))
