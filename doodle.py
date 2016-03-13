@@ -58,7 +58,6 @@ def to_camera_space(rect):
 
 ## items!!!
 items = pygame.sprite.OrderedUpdates()
-
 items.add(create_item("coin", 400,1450)) 
 items.add(create_item("coin", 600,1050)) 
 
@@ -70,7 +69,7 @@ platforms.append(create_platform(500, 1000+100))
 platforms.append(create_platform(200, 1200+100))
 
 platforms.append(create_platform(600, 1000+100))
-platforms.append(create_platform(200, 880))
+platforms.append(create_platform(200, 890))
 
 platforms.append(bottom)
 
@@ -137,13 +136,23 @@ while game_running:
     apply_move(-move, 0)
   if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
     apply_move(move, 0)
-    
+
+  for event in pygame.event.get():
+    if event.type == pygame.QUIT:
+      game_running = False
+    elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+      game_running = False
+      
   #print("{:f}".format(jumper.rect.x))
   if jumper.rect.x < 0 :
     jumper.rect.x = 800
   elif jumper.rect.x > 800 :
     jumper.rect.x = 0
     
+  for platform in platforms:
+    if platform.rect.y > camera_offset+SCREEN_HEIGHT:
+      print("kill platform")
+      
   screen.fill(WHITE)
 
   if jump_frame != -1:
