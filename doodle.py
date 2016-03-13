@@ -18,6 +18,7 @@ WIDTH = 800
 HEIGHT = 1800
 SCREEN_HEIGHT = 600
 WHITE = (255, 255, 255)
+crisis = False
 
 pygame.key.set_repeat(50,50)
 screen = pygame.display.set_mode((WIDTH, SCREEN_HEIGHT))
@@ -155,7 +156,8 @@ while game_running:
     if platform.rect.y > camera_offset+SCREEN_HEIGHT:
       print("kill platform")
       del platforms[index]
-
+  if pygame.sprite.spritecollide(jumper,[bottom],False):
+    crisis = True
   screen.fill(WHITE)
 
   if jump_frame != -1:
@@ -163,21 +165,20 @@ while game_running:
     jump_frame += 1
     if len(jump_deltas) <= jump_frame:
       jump_frame = -1
- 
-  screen.blit(background_image,(0,0))
-  screen.blit(jumper.image, to_camera_space(jumper.rect))
-  font = pygame.font.Font(None, 36)
-  text_image = font.render("score: "+str(score), True,(153, 45, 189))
-  text_rect = text_image.get_rect(centerx=100, centery=50)
-  screen.blit(text_image, text_rect)
-  
-
-  for platform in platforms:
-    screen.fill(platform_colour, to_camera_space(platform.rect))
-
-
-  for item in items:
-    screen.blit(item.image, to_camera_space(item.rect))
+  if crisis:
+    font = pygame.font.Font(None, 36)
+    text_image = font.render("Question: ", True,(153, 45, 189))
+  else:
+    screen.blit(background_image,(0,0))
+    screen.blit(jumper.image, to_camera_space(jumper.rect))
+    font = pygame.font.Font(None, 36)
+    text_image = font.render("score: "+str(score), True,(153, 45, 189))
+    text_rect = text_image.get_rect(centerx=100, centery=50)
+    screen.blit(text_image, text_rect)
+    for platform in platforms:
+        screen.fill(platform_colour, to_camera_space(platform.rect))
+    for item in items:
+        screen.blit(item.image, to_camera_space(item.rect))
 
   pygame.display.update()
 
