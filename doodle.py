@@ -34,7 +34,7 @@ camera_offset = 1200
 
 #bottom of the screen
 bottom = pygame.sprite.Sprite()
-bottom.rect = pygame.Rect(0,HEIGHT - 50, WIDTH, 50)
+bottom.rect = pygame.Rect(-50,HEIGHT - 50, WIDTH+100, 50)
 
 def create_platform(x, y):
   width = 200
@@ -130,7 +130,13 @@ while game_running:
     jump_frame += 1
     if len(jump_deltas) <= jump_frame:
       jump_frame = -1
- 
+  
+  print("{:f}".format(jumper.rect.x))
+  if jumper.rect.x < 0 :
+    jumper.rect.x = 800
+  elif jumper.rect.x > 800 :
+    jumper.rect.x = 0
+    
   screen.fill(WHITE)
   screen.blit(jumper.image, to_camera_space(jumper.rect))
 
