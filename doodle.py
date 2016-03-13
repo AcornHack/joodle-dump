@@ -114,7 +114,7 @@ while game_running:
     elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
       game_running = False
     elif event.type == pygame.KEYDOWN:
-      if event.key == pygame.K_UP:
+      if event.key == pygame.K_UP or event.key == pygame.K_SPACE or event.key == pygame.K_w:
 	    # if the player is just above or on a platform we allow a jump
 		# to test we form a rectangle just under the player and collide it against
 		# the platforms
@@ -123,9 +123,9 @@ while game_running:
         jumper.rect.width, 3)
         if pygame.sprite.groupcollide([feet], platforms, False, False):
          jump_frame = 0 # player is allowed to jump - start the jump sequence
-      elif event.key == pygame.K_LEFT:
+      elif event.key == pygame.K_LEFT or event.key == pygame.K_a:
         apply_move(-move, 0)
-      elif event.key == pygame.K_RIGHT:
+      elif event.key == pygame.K_RIGHT or event.key == pygame.K_d:
         apply_move(move, 0)
 
 
