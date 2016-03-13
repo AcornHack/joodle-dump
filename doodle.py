@@ -47,7 +47,7 @@ def create_platform(x, y):
 
 def create_item(type, x, y):
   item = pygame.sprite.Sprite()
-  item.image = pygame.image.load("coin.jpg")
+  item.image = pygame.image.load("coin.png")
   item.rect = item.image.get_rect()
   item.rect.x = x
   item.rect.y = y
@@ -58,8 +58,8 @@ def to_camera_space(rect):
 
 ## items!!!
 items = pygame.sprite.OrderedUpdates()
-items.add(create_item("coin.jpg", 400,1450)) 
-items.add(create_item("coin.jpg", 600,1050)) 
+items.add(create_item("coin", 400,1450)) 
+items.add(create_item("coin", 600,1050)) 
 platforms = []
 platform_colour = (200, 140, 80)
 platforms.append(create_platform(200, 1200+500))
@@ -130,7 +130,7 @@ while game_running:
     elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
       game_running = False
       
-  print("{:f}".format(jumper.rect.x))
+  #print("{:f}".format(jumper.rect.x))
   if jumper.rect.x < 0 :
     jumper.rect.x = 800
   elif jumper.rect.x > 800 :
