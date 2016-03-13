@@ -65,18 +65,19 @@ items.add(create_item("coin", 200,850))
 items.add(create_item("coin", 300,700)) 
 
 
-platforms = []
+default_platforms = []
 platform_colour = (200, 140, 80)
-platforms.append(create_platform(200, 1200+500))
-platforms.append(create_platform(400, 1200+300))
-platforms.append(create_platform(500, 1000+100))
-platforms.append(create_platform(200, 1200+100))
+default_platforms.append(create_platform(200, 1200+500))
+default_platforms.append(create_platform(400, 1200+300))
+default_platforms.append(create_platform(500, 1000+100))
+default_platforms.append(create_platform(200, 1200+100))
 
-platforms.append(create_platform(600, 1000+100))
-platforms.append(create_platform(200, 890))
-platforms.append(create_platform(100, 600))
+default_platforms.append(create_platform(600, 1000+100))
+default_platforms.append(create_platform(200, 890))
+default_platforms.append(create_platform(100, 600))
 
-platforms.append(bottom)
+default_platforms.append(bottom)
+platforms = default_platforms
 
 ## when player presses jump button we set jump_frame to 0
 ## then each frame we apply the position diff stored in the 
@@ -126,6 +127,7 @@ while game_running:
       game_running = False
     elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
       game_running = False
+          
 
   keys = pygame.key.get_pressed();
   if keys[pygame.K_UP] or keys[pygame.K_SPACE] or keys[pygame.K_w]:
@@ -141,7 +143,9 @@ while game_running:
     apply_move(-move, 0)
   if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
     apply_move(move, 0)
-
+  if keys[pygame.K_y] and crisis:
+    crisis = False
+    
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       game_running = False
@@ -169,8 +173,13 @@ while game_running:
       jump_frame = -1
   if crisis:
     font = pygame.font.Font(None, 36)
-    text_image = font.render("Question: ", True,(153, 45, 189))
-    screen.blit(text_image,(200,400))
+    text_image = font.render("Give up your score to buy medicine for children in need", True,(153, 45, 189))
+    screen.blit(text_image,(100,400))
+    text_image = font.render("Yes", True,(153, 45, 189))
+    screen.blit(text_image,(200,500))
+    text_image = font.render("No", True,(153, 45, 189))
+    screen.blit(text_image,(300,500))
+    
   else:
     screen.blit(background_image,(0,0))
     screen.blit(jumper.image, to_camera_space(jumper.rect))
