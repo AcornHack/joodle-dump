@@ -168,7 +168,7 @@ while game_running:
       print("kill platform")
       del platforms[index]
   if pygame.sprite.spritecollide(jumper,[bottom],False):
-    crisis = 1
+    crisis = random.randint(1,3)
   screen.fill(WHITE)
 
   if jump_frame != -1:
