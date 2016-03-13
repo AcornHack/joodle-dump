@@ -62,6 +62,8 @@ items = pygame.sprite.OrderedUpdates()
 items.add(create_item("coin", 400,1450)) 
 items.add(create_item("coin", 600,1050)) 
 items.add(create_item("coin", 200,850)) 
+items.add(create_item("coin", 300,700)) 
+
 
 platforms = []
 platform_colour = (200, 140, 80)
@@ -103,8 +105,8 @@ def apply_move(move_x,move_y):
   
   #print("y={:d} camera_offset={:f}" .format(jumper.rect.y, camera_offset) )
   # if player is more than halfway up the screen, scroll the screen upwards
-  if jumper.rect.y < camera_offset + SCREEN_HEIGHT / 2 :
-    camera_offset = jumper.rect.y - SCREEN_HEIGHT / 2
+  if jumper.rect.y < camera_offset + SCREEN_HEIGHT / 4 :
+    camera_offset = jumper.rect.y - SCREEN_HEIGHT / 3
   # if player is falling off bottom of screen scroll screen downwards
   if jumper.rect.y + jumper.rect.height > camera_offset + SCREEN_HEIGHT:
     camera_offset = jumper.rect.y + jumper.rect.height - SCREEN_HEIGHT + 20
