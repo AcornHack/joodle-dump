@@ -21,6 +21,8 @@ WHITE = (255, 255, 255)
 
 pygame.key.set_repeat(50,50)
 screen = pygame.display.set_mode((WIDTH, SCREEN_HEIGHT))
+
+background_image=pygame.image.load ("blue-sky.jpg")
 jumper = pygame.sprite.Sprite()
 jumper.image = pygame.image.load("elephant.bmp")
 jumper.rect = jumper.image.get_rect()
@@ -56,7 +58,7 @@ def to_camera_space(rect):
 
 ## items!!!
 items = pygame.sprite.OrderedUpdates()
-items.add(create_item("first_aid", 400,1200+300)) 
+items.add(create_item("first_aid", 400,1400)) 
 
 platforms = []
 platform_colour = (200, 140, 80)
