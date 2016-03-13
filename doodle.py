@@ -7,7 +7,7 @@ import time
 # add audio?
 # new character
 # simple character animation?
-# tune movement to make it feel good
+# tune movement to make it feel 
 # add more platforms
 # add more items and different types
 # fall down to a crisis
@@ -47,7 +47,7 @@ def create_platform(x, y):
 
 def create_item(type, x, y):
   item = pygame.sprite.Sprite()
-  item.image = pygame.image.load("firstaid.bmp")
+  item.image = pygame.image.load("coin.jpg")
   item.rect = item.image.get_rect()
   item.rect.x = x
   item.rect.y = y
@@ -58,7 +58,7 @@ def to_camera_space(rect):
 
 ## items!!!
 items = pygame.sprite.OrderedUpdates()
-items.add(create_item("first_aid", 400,1450)) 
+items.add(create_item("coin.jpg", 400,1450)) 
 
 platforms = []
 platform_colour = (200, 140, 80)
