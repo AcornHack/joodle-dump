@@ -67,7 +67,7 @@ platforms.append(create_platform(400, 1200+300))
 platforms.append(create_platform(500, 1000+100))
 platforms.append(create_platform(200, 1200+100))
 platforms.append(create_platform(600, 1000+100))
-platforms.append(create_platform(200, 890))
+platforms.append(create_platform(200, 900))
 platforms.append(bottom)
 
 ## when player presses jump button we set jump_frame to 0
@@ -136,7 +136,7 @@ while game_running:
   elif jumper.rect.x > 800 :
     jumper.rect.x = 0
     
-  for platform in platforms:
+      for platform in platforms:
     if platform.rect.y > camera_offset+SCREEN_HEIGHT:
       
   screen.fill(WHITE)
