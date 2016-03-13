@@ -149,7 +149,7 @@ while game_running:
   elif jumper.rect.x > 800 :
     jumper.rect.x = 0
     
-      for platform in platforms:
+  for platform in platforms:
     if platform.rect.y > camera_offset+SCREEN_HEIGHT:
 
       print("kill platform")
