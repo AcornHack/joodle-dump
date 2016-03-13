@@ -138,7 +138,7 @@ while game_running:
     
   for platform in platforms:
     if platform.rect.y > camera_offset+SCREEN_HEIGHT:
-      
+      print("platform offscreen")
   screen.fill(WHITE)
 
   if jump_frame != -1:
