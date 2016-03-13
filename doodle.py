@@ -18,12 +18,13 @@ WIDTH = 800
 HEIGHT = 1800
 SCREEN_HEIGHT = 600
 WHITE = (255, 255, 255)
-crisis = False
-
+crisis = 0
+gameover=False
 pygame.key.set_repeat(50,50)
 screen = pygame.display.set_mode((WIDTH, SCREEN_HEIGHT))
 
 background_image = pygame.image.load ("blue-sky.jpg")
+gameover_image = pygame.image.load ("turtel 2.png")
 jumper = pygame.sprite.Sprite()
 jumper.image = pygame.image.load("turtle.png")
 jumper.rect = jumper.image.get_rect()
@@ -144,9 +145,12 @@ while game_running:
   if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
     apply_move(move, 0)
   if keys[pygame.K_y] and crisis:
-    crisis = False
+    crisis = 0
     platforms = default_platforms[::]
-    jumper.rect.y = 1200
+    jumper.rect.y = 1200 
+    score = 0
+  if keys[pygame.K_n] and crisis:
+    gameover= True
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       game_running = False
@@ -164,7 +168,7 @@ while game_running:
       print("kill platform")
       del platforms[index]
   if pygame.sprite.spritecollide(jumper,[bottom],False):
-    crisis = True
+    crisis = 1
   screen.fill(WHITE)
 
   if jump_frame != -1:
@@ -172,7 +176,10 @@ while game_running:
     jump_frame += 1
     if len(jump_deltas) <= jump_frame:
       jump_frame = -1
-  if crisis:
+  if gameover:
+  
+    screen.blit(gameover_image,(0,0))
+  elif crisis:
     font = pygame.font.Font(None, 36)
     text_image = font.render("Give up your score to buy medicine for children in need", True,(153, 45, 189))
     screen.blit(text_image,(100,400))
