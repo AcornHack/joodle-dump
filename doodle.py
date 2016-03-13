@@ -151,9 +151,10 @@ while game_running:
   elif jumper.rect.x > 800 :
     jumper.rect.x = 0
     
-  for platform in platforms:
+  for index,platform in enumerate(platforms):
     if platform.rect.y > camera_offset+SCREEN_HEIGHT:
       print("kill platform")
+      del platforms[index]
 
   screen.fill(WHITE)
 
