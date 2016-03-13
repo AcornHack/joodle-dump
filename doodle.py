@@ -60,6 +60,7 @@ def to_camera_space(rect):
 items = pygame.sprite.OrderedUpdates()
 items.add(create_item("coin", 400,1450)) 
 items.add(create_item("coin", 600,1050)) 
+items.add(create_item("coin", 200,850)) 
 
 platforms = []
 platform_colour = (200, 140, 80)
