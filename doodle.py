@@ -18,12 +18,13 @@ WIDTH = 800
 HEIGHT = 1800
 SCREEN_HEIGHT = 600
 WHITE = (255, 255, 255)
-crisis = False
-
+crisis = 0
+gameover=False
 pygame.key.set_repeat(50,50)
 screen = pygame.display.set_mode((WIDTH, SCREEN_HEIGHT))
 
 background_image = pygame.image.load ("blue-sky.jpg")
+gameover_image = pygame.image.load ("turtel 2.png")
 jumper = pygame.sprite.Sprite()
 jumper.image = pygame.image.load("turtle.png")
 jumper.rect = jumper.image.get_rect()
@@ -65,18 +66,18 @@ items.add(create_item("coin", 200,850))
 items.add(create_item("coin", 300,700)) 
 
 
-platforms = []
+default_platforms = []
 platform_colour = (200, 140, 80)
-platforms.append(create_platform(200, 1200+500))
-platforms.append(create_platform(400, 1200+300))
-platforms.append(create_platform(500, 1000+100))
-platforms.append(create_platform(200, 1200+100))
+default_platforms.append(create_platform(200, 1200+500))
+default_platforms.append(create_platform(400, 1200+300))
+default_platforms.append(create_platform(500, 1000+100))
+default_platforms.append(create_platform(200, 1200+100))
+default_platforms.append(create_platform(600, 1000+100))
+default_platforms.append(create_platform(200, 890))
+default_platforms.append(create_platform(100, 700))
 
-platforms.append(create_platform(600, 1000+100))
-platforms.append(create_platform(200, 890))
-platforms.append(create_platform(100, 700))
-
-platforms.append(bottom)
+default_platforms.append(bottom)
+platforms = default_platforms[::]
 
 ## when player presses jump button we set jump_frame to 0
 ## then each frame we apply the position diff stored in the 
@@ -126,6 +127,7 @@ while game_running:
       game_running = False
     elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
       game_running = False
+          
 
   keys = pygame.key.get_pressed();
   if keys[pygame.K_UP] or keys[pygame.K_SPACE] or keys[pygame.K_w]:
@@ -141,7 +143,13 @@ while game_running:
     apply_move(-move, 0)
   if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
     apply_move(move, 0)
-
+  if keys[pygame.K_y] and crisis:
+    crisis = 0
+    platforms = default_platforms[::]
+    jumper.rect.y = 1200 
+    score = 0
+  if keys[pygame.K_n] and crisis:
+    gameover= True
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       game_running = False
@@ -159,7 +167,7 @@ while game_running:
       print("kill platform")
       del platforms[index]
   if pygame.sprite.spritecollide(jumper,[bottom],False):
-    crisis = True
+    crisis = 1
   screen.fill(WHITE)
 
   if jump_frame != -1:
@@ -167,9 +175,18 @@ while game_running:
     jump_frame += 1
     if len(jump_deltas) <= jump_frame:
       jump_frame = -1
-  if crisis:
+  if gameover:
+  
+    screen.blit(gameover_image,(0,0))
+  elif crisis:
     font = pygame.font.Font(None, 36)
-    text_image = font.render("Question: ", True,(153, 45, 189))
+    text_image = font.render("Give up your score to buy medicine for children in need", True,(153, 45, 189))
+    screen.blit(text_image,(100,400))
+    text_image = font.render("Yes", True,(153, 45, 189))
+    screen.blit(text_image,(200,500))
+    text_image = font.render("No", True,(153, 45, 189))
+    screen.blit(text_image,(300,500))
+    
   else:
     screen.blit(background_image,(0,0))
     screen.blit(jumper.image, to_camera_space(jumper.rect))
