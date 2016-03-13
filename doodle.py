@@ -58,7 +58,7 @@ def to_camera_space(rect):
 
 ## items!!!
 items = pygame.sprite.OrderedUpdates()
-items.add(create_item("first_aid", 400,1550)) 
+items.add(create_item("first_aid", 400,1450)) 
 
 platforms = []
 platform_colour = (200, 140, 80)
