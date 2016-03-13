@@ -71,7 +71,7 @@ platforms.append(create_platform(200, 1200+100))
 
 platforms.append(create_platform(600, 1000+100))
 platforms.append(create_platform(200, 890))
-platforms.append(create_platform(400, 1000))
+platforms.append(create_platform(100, 700))
 
 platforms.append(bottom)
 
