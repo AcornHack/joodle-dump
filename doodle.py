@@ -21,6 +21,8 @@ WHITE = (255, 255, 255)
 
 pygame.key.set_repeat(50,50)
 screen = pygame.display.set_mode((WIDTH, SCREEN_HEIGHT))
+
+background_image=pygame.image.load ("blue-sky.jpg")
 jumper = pygame.sprite.Sprite()
 jumper.image = pygame.image.load("elephant.bmp")
 jumper.rect = jumper.image.get_rect()
