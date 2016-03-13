@@ -22,7 +22,7 @@ WHITE = (255, 255, 255)
 pygame.key.set_repeat(50,50)
 screen = pygame.display.set_mode((WIDTH, SCREEN_HEIGHT))
 
-background_image=pygame.image.load ("blue-sky.jpg")
+background_image = pygame.image.load ("blue-sky.jpg")
 jumper = pygame.sprite.Sprite()
 jumper.image = pygame.image.load("elephant.bmp")
 jumper.rect = jumper.image.get_rect()
@@ -128,12 +128,7 @@ while game_running:
       elif event.key == pygame.K_RIGHT:
         apply_move(move, 0)
 
-  if jump_frame != -1:
-    apply_move(0, -jump_deltas[jump_frame])
-    jump_frame += 1
-    if len(jump_deltas) <= jump_frame:
-      jump_frame = -1
-  
+
   print("{:f}".format(jumper.rect.x))
   if jumper.rect.x < 0 :
     jumper.rect.x = 800
@@ -141,6 +136,14 @@ while game_running:
     jumper.rect.x = 0
     
   screen.fill(WHITE)
+
+  if jump_frame != -1:
+    apply_move(0, -jump_deltas[jump_frame])
+    jump_frame += 1
+    if len(jump_deltas) <= jump_frame:
+      jump_frame = -1
+ 
+  screen.blit(background_image,(0,0))
   screen.blit(jumper.image, to_camera_space(jumper.rect))
 
   for platform in platforms:
