@@ -59,7 +59,7 @@ def to_camera_space(rect):
 ## items!!!
 items = pygame.sprite.OrderedUpdates()
 items.add(create_item("coin.jpg", 400,1450)) 
-
+items.add(create_item("coin.jpg", 600,1050)) 
 platforms = []
 platform_colour = (200, 140, 80)
 platforms.append(create_platform(200, 1200+500))
@@ -67,6 +67,7 @@ platforms.append(create_platform(400, 1200+300))
 platforms.append(create_platform(500, 1000+100))
 platforms.append(create_platform(200, 1200+100))
 platforms.append(create_platform(600, 1000+100))
+platforms.append(create_platform(200, 880))
 platforms.append(bottom)
 
 ## when player presses jump button we set jump_frame to 0
