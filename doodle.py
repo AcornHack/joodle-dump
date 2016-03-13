@@ -24,7 +24,7 @@ screen = pygame.display.set_mode((WIDTH, SCREEN_HEIGHT))
 
 background_image = pygame.image.load ("blue-sky.jpg")
 jumper = pygame.sprite.Sprite()
-jumper.image = pygame.image.load("elephant.bmp")
+jumper.image = pygame.image.load("turtle.png")
 jumper.rect = jumper.image.get_rect()
 jumper.rect.y = 1500
 screen.fill(WHITE)
